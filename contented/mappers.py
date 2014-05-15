@@ -1,9 +1,12 @@
+from __future__ import absolute_import
+
 import fnmatch
 import os
-import time
 from datetime import datetime
+
 import markdown
-from content_map import ContentFile
+
+from .content_map import ContentFile
 
 
 def files_for_extension(content_root, ext):
@@ -31,7 +34,7 @@ def markdown_mapper(content_root):
         with open(path) as txt:
             text = txt.read()
             md = markdown.Markdown(extensions=["meta", ])
-            md.convert(unicode(text, "utf-8"))
+            md.convert(text)
 
         title = md.Meta.get("title", [path.split("/")[-1]])[0]
         date = md.Meta.get("date", None)

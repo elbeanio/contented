@@ -1,6 +1,10 @@
+from __future__ import absolute_import
+
 from jinja2 import Environment, FileSystemLoader
 from werkzeug.wrappers import Response
 import markdown
+
+from .content_map import ContentFile
 
 
 class JinjaProcessorBase(object):
@@ -24,7 +28,7 @@ class JinjaProcessorBase(object):
     def error(self, status, message, template="error.html"):
         context = {"path": "",
                    "content_map": self.content_map,
-                   "content_file": None,
+                   "content_file": ContentFile.blank(),
                    "content": message,
                    "debug": self.settings.debug}
         content = self.render_theme(template, **context)

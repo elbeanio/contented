@@ -1,6 +1,8 @@
+from __future__ import absolute_import
+
 import unittest
-from settings import get_settings
-from app import Application
+from .settings import get_settings
+from .app import Application
 
 
 class SettingsTests(unittest.TestCase):
@@ -19,6 +21,3 @@ class AppTests(unittest.TestCase):
         self.assertTrue(hasattr(app, "settings"))
         self.assertTrue(hasattr(app, "content_map"))
         self.assertTrue(hasattr(app, "request_processors"))
-
-if __name__ == "__main__":
-    unittest.main()

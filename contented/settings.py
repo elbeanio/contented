@@ -1,9 +1,11 @@
+from __future__ import absolute_import
+
 import os
 from collections import namedtuple
 from copy import deepcopy
 
-from mappers import markdown_mapper, org_mapper
-from request_processors import MarkdownProcessor
+from .mappers import markdown_mapper, org_mapper
+from .request_processors import MarkdownProcessor
 
 
 default_settings = {"debug": False,

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from werkzeug.exceptions import NotFound
 
 
@@ -20,6 +22,10 @@ class ContentFile(object):
         self.title = title
         self.date = date
         self.extra = kwargs
+
+    @staticmethod
+    def blank():
+        return ContentFile("", "", "", "", datetime.today())
 
 
 class ContentMap(object):

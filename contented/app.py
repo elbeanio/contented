@@ -1,8 +1,10 @@
+from __future__ import absolute_import
+
 from werkzeug.wrappers import Request
 from werkzeug.exceptions import NotFound
 
-from settings import get_settings
-from content_map import ContentMap
+from .settings import get_settings
+from .content_map import ContentMap
 
 
 class Application(object):
@@ -40,7 +42,7 @@ class Application(object):
         try:
             content_file = self.content_map.from_request_path(request.path)
         except NotFound as ex:
-            request_processor = self.request_processors.values()[0]
+            request_processor = list(self.request_processors.values())[0]
             return request_processor.error(404, "Error, path not found: {0}".format(ex.description))
 
         request_processor = self.request_processors[content_file.file_type]
