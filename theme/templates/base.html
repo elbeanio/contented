@@ -1,0 +1,35 @@
+<html>
+<title>{% block title %}{% endblock title %}</title>
+<head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/screen.css" media="screen">
+    {% block head %}{% endblock head %}
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>Contented</h1>
+        <p class="lead">A fast, simple app for getting your content on the web.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            {% block content %}
+                <h2>{{ content_file.title }}</h2>
+            {% endblock content %}
+        </div>
+        <div class="col-md-4">
+            <h3>Other articles</h3>
+            <ul>
+                {% for other_file in content_map.files %}
+                    <li><a href="{{ other_file.request_path }}">{{ other_file.title }}</a></li>
+                {%  endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="page-footer">
+        <div>&copy; Ian George 2014, last updated: {{ content_file.date.strftime("%Y-%m-%d") }}</div>
+    </div>
+</div>
+
+</body>
+</html>

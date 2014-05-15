@@ -1,0 +1,76 @@
+#+TITLE:Contented
+#+DATE:2014-05-13
+
+* Contented
+  A small, quick, easy to configure WSGI app for serving up org-mode
+  files as web pages.
+
+** Process
+*** Application init
+    When the application initialises we need to do a few things to keep
+    the process for each individual request as small as possible.
+
+**** Collect settings
+     The application needs to get its settings, firstly from a
+     combination of library-level defaults, but also from the local
+     application settings. These settings should be read when the
+     application starts and be as untouchable as possible.
+
+**** Find all the files
+     Scan the content folder for the org files and build up a content
+     map so that each request only has to parse a single file. This
+     should probably be a list of content mappers that can all add to
+     the content map.
+
+*** Request
+    When we get a WSGI request we need to compare the path to the
+    content map and see which file our request maps to. We can then
+    hand this off to an appropriate processor.
+**** Dispatch
+     Each request processor is registered with contented with a unique
+     string. The appropriate processor for the request is determined
+     by the content map. The processor is created, passing in the
+     settings object and content map. Each processor is expected to
+     take these items in its constructor. When the object is created
+     process(request) will be called, passing in the current request
+     object.
+**** Processing
+     When process(request) is called, the processor should take the
+     request object, parse the required template, and return a
+     response object with the appropriate theme etc. rendered.
+
+*** Other
+/n/a at this time./
+
+** Objects
+*** Application
+    The global object, holds settings and dispatches requests.
+
+*** Settings
+    The big settings object. Should be immutable and thread
+    safe. Implemented as a namedtuple at the moment, not sure how
+    that'll work once the settings get a bit more complex (and the
+    contents more mutable).
+
+*** ContentMap
+    Map of all the content, used for themes to put more links and info
+    in the boilerplate code and so we only have to parse all of the
+    content on app start up. Might be worth making this pluggable at
+    some point in case there's ever enough content to make it worth
+    persisting the data across app restarts.
+
+*** Collector
+    A class for pre-processing files for inclusion in the content
+    map. For a given file it should return a path and a dict with a
+    minimum:
+- processor
+- title
+- date
+Optionally, depending on the theme or type of file it can return more
+information.
+
+*** RequestProcessor
+    A request processor. Should have a constructor that accepts a
+    settings object and a content map. Also has a process method that
+    accepts a requets object and returns a response object. Classic
+    shit.
