@@ -60,7 +60,7 @@ class MarkdownProcessor(JinjaProcessorBase):
         with open(content_path) as txt:
             text = txt.read()
             md = markdown.Markdown(extensions=["meta", ])
-            content_html = md.convert(unicode(text, "utf-8"))
+            content_html = md.convert(text)
 
         context = {"path": request.path,
                    "content_map": self.content_map,
