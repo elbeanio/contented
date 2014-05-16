@@ -1,4 +1,5 @@
 from __future__ import print_function
+from __future__ import absolute_import
 
 import argparse
 import os
@@ -35,8 +36,7 @@ def app_test():
     Run all the unit tests
     """
     import unittest
-    loader = unittest.TestLoader()
-    tests = loader.discover('.')
+    tests = unittest.TestLoader().discover('.', pattern="*.py")
     test_runner = unittest.runner.TextTestRunner()
     test_runner.run(tests)
 

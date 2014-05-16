@@ -28,7 +28,7 @@ class JinjaProcessorBase(object):
     def error(self, status, message, template="error.html"):
         context = {"path": "",
                    "content_map": self.content_map,
-                   "content_file": ContentFile.blank(),
+                   "content_file": ContentFile.dummy(),
                    "content": message,
                    "debug": self.settings.debug}
         content = self.render_theme(template, **context)
@@ -36,7 +36,7 @@ class JinjaProcessorBase(object):
 
     def process(self, request, content_file):
         """
-         Called by the
+         Called by the application, catches errors in process_request and displays the error page.
         """
         try:
             return self.process_request(request, content_file)

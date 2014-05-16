@@ -24,7 +24,7 @@ class ContentFile(object):
         self.extra = kwargs
 
     @staticmethod
-    def blank():
+    def dummy():
         return ContentFile("", "", "", "", datetime.today())
 
 
