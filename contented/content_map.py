@@ -21,7 +21,7 @@ class ContentFile(object):
         self.request_path = request_path
         self.title = title
         self.date = date
-        self.extra = kwargs
+        self.__dict__.update(kwargs)
 
     @staticmethod
     def dummy():
