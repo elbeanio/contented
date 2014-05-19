@@ -27,7 +27,7 @@ def markdown_mapper(content_root):
     """
     files = files_for_extension(content_root, "md")
     content_files = []
-
+    
     for path in files:
         web_path = path.replace(content_root, "")
 

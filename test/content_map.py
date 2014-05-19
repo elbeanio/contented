@@ -1,5 +1,8 @@
 import unittest
 from datetime import datetime
+
+from werkzeug.exceptions import NotFound
+
 from contented.content_map import ContentFile, ContentMap
 
 
@@ -32,7 +35,7 @@ class ContentFileTests(unittest.TestCase):
 class ContentMapTests(unittest.TestCase):
     def get_fake_file(self, name, date=datetime.now()):
         return ContentFile("markdown",
-                           "/path/to/name" + name,
+                           "/path/to/" + name,
                            "/" + name,
                            name,
                            date)
@@ -51,6 +54,7 @@ class ContentMapTests(unittest.TestCase):
         self.cm.update(self.files)
 
     def test_get_content_tree(self):
+        #TODO tree needs to be a tree, very flat at the moment
         pass
 
     def test_update(self):
@@ -60,13 +64,21 @@ class ContentMapTests(unittest.TestCase):
         self.assertEqual(len(self.cm.files), 8)
 
     def test_from_file_path_found(self):
-        pass
+        file_path = "/path/to/file1.md"
+        cf = self.cm.from_file_path(file_path)
+        self.assertEqual(cf.file_path, file_path)
 
     def test_from_file_path_not_found(self):
-        pass
+        file_path = "/path/to/file1x.md"
+        with self.assertRaises(NotFound):
+            self.cm.from_file_path(file_path)
 
     def test_from_request_path_found(self):
-        pass
+        request_path = "/file1.md"
+        cf = self.cm.from_request_path(request_path)
+        self.assertEqual(cf.request_path, request_path)
 
     def test_from_request_path_not_found(self):
-        pass
+        request_path = "/file1x.md"
+        with self.assertRaises(NotFound):
+            self.cm.from_request_path(request_path)
